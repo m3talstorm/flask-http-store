@@ -1,0 +1,25 @@
+
+version: '2.2'
+
+services:
+
+
+    nginx:
+        container_name: fhs-nginx
+        image: registry.gitlab.com/m3talstorm/flask-http-store/fhs-nginx:latest
+        restart: on-failure
+        depends_on:
+            - api
+        volumes:
+            - ./FHS-NGINX/fhs.conf:/etc/nginx/conf.d/fhs.conf
+            - ./FHS-NGINX/nginx.conf:/etc/nginx/nginx.conf
+        ports:
+            - "80:80"
+
+    api:
+        container_name: fhs-api
+        image: registry.gitlab.com/m3talstorm/flask-http-store/fhs-api:latest
+        restart: on-failure
+        volumes:
+            - ./FHS-API/app:/fhs/app/
+            - ./logs:/var/log/fhs/
